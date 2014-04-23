@@ -20,17 +20,17 @@ my_http.createServer(function(request,response){
     sys.puts("I got kicked");
     handleRequest(request, response);
 
-    response.writeHeader(200, {"Content-Type": "text/plain"});
+    // write no-bid back
+    response.writeHeader(204, {"Content-Type": "text/plain"});
     response.write("Hello World");
     response.end();
-
 
 }).listen(8080);
 sys.puts("Server Running on 8080");
 
-var qs = require('querystring');
 
 function handleRequest(request, response) {
+    var qs = require('querystring');
     if (request.method == 'POST') {
         var body = '';
         request.on('data', function (data) {
@@ -56,7 +56,7 @@ function xmlParser(xml) {
 //    var xml = "<root>Hello xml2js!</root>"
     var parseString = require('xml2js').parseString;
     parseString(xml, function (err, result) {
-        rootElement = JSON.stringify(result['root']);
+        rootElement = JSON.stringify(result['id']);
         console.dir("result: " + rootElement);
         flumeClient.write(rootElement + "\n");
     });
